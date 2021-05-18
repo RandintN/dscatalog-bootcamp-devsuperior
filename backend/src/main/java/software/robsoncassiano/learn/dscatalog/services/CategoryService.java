@@ -1,9 +1,11 @@
 package software.robsoncassiano.learn.dscatalog.services;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import software.robsoncassiano.learn.dscatalog.dto.CategoryDTO;
 import software.robsoncassiano.learn.dscatalog.entities.Category;
 import software.robsoncassiano.learn.dscatalog.repositories.CategoryRepository;
 
@@ -18,7 +20,17 @@ public class CategoryService {
   }
 
   @Transactional(readOnly = true)
-  public List<Category> findAllCategories() {
-    return categoryRepository.findAll();
+  public List<CategoryDTO> findAllCategories() {
+    final List<Category> list = categoryRepository.findAll();
+
+    return list.stream().map(CategoryDTO::new).collect(Collectors.toList());
   }
 }
+//
+//  List<CategoryDTO> listDto = new ArrayList<>();
+//
+//    for (Category eachCategory : list ) {
+//        listDto.add(new CategoryDTO(eachCategory));
+//        }
+//
+//        return listDto;
